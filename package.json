@@ -1,0 +1,14 @@
+{
+  "name": "testing-framework-playwright-ts",
+  "version": "1.0.0",
+  "description": "Automation Testing Framwork created with Playwright and TS to test GAD app",
+  "main": "index.js",
+  "scripts": {},
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "@playwright/test": "^1.42.1",
+    "@types/node": "^20.11.30"
+  }
+}
