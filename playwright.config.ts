@@ -13,6 +13,7 @@ export default defineConfig({
   workers: process.env.CI ? 1 : undefined,
   reporter: 'html',
   use: {
+    baseURL: 'http://localhost:3000',
     actionTimeout: 0,
     trace: 'retain-on-failure',
     video: 'retain-on-failure',
