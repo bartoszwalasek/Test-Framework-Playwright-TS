@@ -17,6 +17,8 @@ Repository: https://github.com/jaktestowac/gad-gui-api-demo
 - install dependencies: `npm install`
 - setup Playwright with: `npx playwright install`
 - setup husky with: `npx husky init`
+- prepare local env file: `cp .env-template .env`
+- copy application main URL as value of `BASE_URL` in `.env` file
 
 ## Use
 
