@@ -6,4 +6,4 @@ async function globalSetup(): Promise<void> {
   });
 }
 
-export default globalSetup();
+export default globalSetup;
