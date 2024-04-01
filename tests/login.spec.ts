@@ -9,12 +9,12 @@ test.describe('Verify login', () => {
     const loginPage = new LoginPage(page);
     const welcomePage = new WelcomePage(page);
 
-    const email = testUser1.userEmail;
-    const password = testUser1.userPassword;
+    const userEmail = testUser1.userEmail;
+    const userPassword = testUser1.userPassword;
 
     // Act
     await loginPage.goto();
-    await loginPage.login(email, password);
+    await loginPage.login(userEmail, userPassword);
 
     // Assert
     const title = await welcomePage.getTitle();
