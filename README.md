@@ -1,6 +1,6 @@
-# Testing-Framework-Playwright-TS
+# Test-Framework-Playwright-TS
 
-Automation Testing Framework created with Playwright and TS to test GAD app  
+Test Automation Framework created with Playwright and TS to test GAD app  
 Repository: https://github.com/jaktestowac/gad-gui-api-demo
 
 ## Prepare
