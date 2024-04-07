@@ -1,5 +1,4 @@
 import { createRandomArticle } from '../src/factories/article.factory';
-import { AddArticle } from '../src/models/article.model';
 import { ArticlePage } from '../src/pages/article.page';
 import { ArticlesPage } from '../src/pages/articles.page';
 import { LoginPage } from '../src/pages/login.page';
@@ -11,14 +10,11 @@ test.describe('Verify articles', () => {
   let loginPage: LoginPage;
   let articlesPage: ArticlesPage;
   let addArticleView: AddArticleView;
-  let addArticle: AddArticle;
 
   test.beforeEach(async ({ page }) => {
     loginPage = new LoginPage(page);
     articlesPage = new ArticlesPage(page);
     addArticleView = new AddArticleView(page);
-
-    addArticle = createRandomArticle();
 
     await loginPage.goto();
     await loginPage.login(testUser1);
@@ -29,39 +25,55 @@ test.describe('Verify articles', () => {
   test('add an article with mandatory fields @GAD-R04-01', async ({ page }) => {
     // Arrange
     const articlePage = new ArticlePage(page);
+
+    const articleData = createRandomArticle();
     const expectedSuccessText = 'Article was created';
 
     // Act
     await expect.soft(addArticleView.header).toBeVisible();
-    await addArticleView.createNewArticle(addArticle);
+    await addArticleView.createNewArticle(articleData);
 
     // Assert
     await expect
       .soft(articlePage.articleCreatedPopUp)
       .toHaveText(expectedSuccessText);
-    await expect.soft(articlePage.articleTitle).toHaveText(addArticle.title);
-    await expect.soft(articlePage.articleBody).toHaveText(addArticle.body);
+    await expect.soft(articlePage.articleTitle).toHaveText(articleData.title);
+    await expect.soft(articlePage.articleBody).toHaveText(articleData.body);
   });
 
-  test('reject add an article without title @GAD-R04-01', async () => {
+  test('reject adding an article without title @GAD-R04-01', async () => {
     // Arrange
-    addArticle.title = '';
+    const articleData = createRandomArticle();
+    articleData.title = '';
     const expectedErrorText = 'Article was not created';
 
     // Act
-    await addArticleView.createNewArticle(addArticle);
+    await addArticleView.createNewArticle(articleData);
 
     // Assert
     await expect(addArticleView.errorPopUp).toHaveText(expectedErrorText);
   });
 
-  test('reject add an article without body @GAD-R04-01', async () => {
+  test('reject adding an article without body @GAD-R04-01', async () => {
     // Arrange
-    addArticle.body = '';
+    const articleData = createRandomArticle();
+    articleData.body = '';
     const expectedErrorText = 'Article was not created';
 
     // Act
-    await addArticleView.createNewArticle(addArticle);
+    await addArticleView.createNewArticle(articleData);
+
+    // Assert
+    await expect(addArticleView.errorPopUp).toHaveText(expectedErrorText);
+  });
+
+  test('reject adding an article with title exceeding 128 signs @GAD-R04-02', async () => {
+    // Arrange
+    const articleData = createRandomArticle(129);
+    const expectedErrorText = 'Article was not created';
+
+    // Act
+    await addArticleView.createNewArticle(articleData);
 
     // Assert
     await expect(addArticleView.errorPopUp).toHaveText(expectedErrorText);
