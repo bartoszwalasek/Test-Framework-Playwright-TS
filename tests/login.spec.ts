@@ -5,13 +5,20 @@ import { testUser1 } from '../src/test-data/user.data';
 import { expect, test } from '@playwright/test';
 
 test.describe('Verify login', () => {
+  let loginPage: LoginPage;
+  let loginUser: LoginUser;
+
+  test.beforeEach(async ({ page }) => {
+    loginPage = new LoginPage(page);
+    loginUser = testUser1;
+    await loginPage.goto();
+  });
+
   test('login with correct credentials @GAD-R02-01', async ({ page }) => {
     // Arrange
-    const loginPage = new LoginPage(page);
     const welcomePage = new WelcomePage(page);
 
     // Act
-    await loginPage.goto();
     await loginPage.login(testUser1);
 
     // Assert
@@ -19,17 +26,11 @@ test.describe('Verify login', () => {
     expect(title).toContain('Welcome');
   });
 
-  test('reject login with incorrect password @GAD-R02-01', async ({ page }) => {
+  test('reject login with incorrect password @GAD-R02-01', async () => {
     // Arrange
-    const loginPage = new LoginPage(page);
-
-    const loginUser: LoginUser = {
-      userEmail: testUser1.userEmail,
-      userPassword: 'incorrectPassword',
-    };
+    loginUser.userPassword = 'incorrectPassword';
 
     // Act
-    await loginPage.goto();
     await loginPage.login(loginUser);
 
     // Assert
