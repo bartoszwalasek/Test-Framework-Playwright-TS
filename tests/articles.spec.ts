@@ -1,3 +1,4 @@
+import { createRandomArticle } from '../src/factories/article.factory';
 import { ArticlePage } from '../src/pages/article.page';
 import { ArticlesPage } from '../src/pages/articles.page';
 import { LoginPage } from '../src/pages/login.page';
@@ -13,8 +14,7 @@ test.describe('Verify articles', () => {
     const addArticleView = new AddArticleView(page);
     const articlePage = new ArticlePage(page);
 
-    const newArticleTitle = 'Test Article';
-    const newArticleBody = 'Lorem Ipsum';
+    const addArticle = createRandomArticle();
     const expectedSuccessText = 'Article was created';
 
     await loginPage.goto();
@@ -25,15 +25,13 @@ test.describe('Verify articles', () => {
     await articlesPage.addArticleButtonLogged.click();
     await expect.soft(addArticleView.header).toBeVisible();
 
-    await addArticleView.articleTitleInput.fill(newArticleTitle);
-    await addArticleView.articleBodyInput.fill(newArticleBody);
-    await addArticleView.saveArticleButton.click();
+    await addArticleView.createNewArticle(addArticle);
 
     // Assert
     await expect
       .soft(articlePage.articleCreatedPopUp)
       .toHaveText(expectedSuccessText);
-    await expect.soft(articlePage.articleTitle).toHaveText(newArticleTitle);
-    await expect.soft(articlePage.articleBody).toHaveText(newArticleBody);
+    await expect.soft(articlePage.articleTitle).toHaveText(addArticle.title);
+    await expect.soft(articlePage.articleBody).toHaveText(addArticle.body);
   });
 });
