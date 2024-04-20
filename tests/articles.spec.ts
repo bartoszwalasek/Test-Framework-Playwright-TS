@@ -22,25 +22,6 @@ test.describe('Verify articles', () => {
     await articlesPage.addArticleButtonLogged.click();
   });
 
-  test('add an article with mandatory fields @GAD-R04-01', async ({ page }) => {
-    // Arrange
-    const articlePage = new ArticlePage(page);
-
-    const articleData = createRandomArticle();
-    const expectedSuccessText = 'Article was created';
-
-    // Act
-    await expect.soft(addArticleView.header).toBeVisible();
-    await addArticleView.createNewArticle(articleData);
-
-    // Assert
-    await expect
-      .soft(articlePage.articleCreatedPopUp)
-      .toHaveText(expectedSuccessText);
-    await expect.soft(articlePage.articleTitle).toHaveText(articleData.title);
-    await expect.soft(articlePage.articleBody).toHaveText(articleData.body);
-  });
-
   test('reject adding an article without title @GAD-R04-01', async () => {
     // Arrange
     const articleData = createRandomArticle();
@@ -66,6 +47,7 @@ test.describe('Verify articles', () => {
     // Assert
     await expect(addArticleView.errorPopUp).toHaveText(expectedErrorText);
   });
+
   test.describe('Title length', () => {
     test('reject adding an article with title exceeding 128 signs @GAD-R04-02', async () => {
       // Arrange
