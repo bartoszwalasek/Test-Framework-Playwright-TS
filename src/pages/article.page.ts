@@ -7,6 +7,7 @@ export class ArticlePage extends BasePage {
 
   articleTitle = this.page.getByTestId('article-title');
   articleBody = this.page.getByTestId('article-body');
+  deleteIcon = this.page.getByTestId('delete');
 
   articleCreatedPopUp = this.page.getByTestId('alert-popup');
 
@@ -14,5 +15,12 @@ export class ArticlePage extends BasePage {
 
   constructor(page: Page) {
     super(page);
+  }
+
+  async deleteArticle(): Promise<void> {
+    this.page.on('dialog', async (dialog) => {
+      await dialog.accept();
+    });
+    await this.deleteIcon.click();
   }
 }
