@@ -55,7 +55,9 @@ test.describe('Create verify and delete article', () => {
 
   test('user can delete his own article @GAD-R04-04', async () => {
     // Arrange
+    const expectedArticlesTitle = 'Articles';
     const expectedNoResultText = 'No data';
+
     await articlesPage.goToArticle(articleData.title);
 
     // Act
@@ -64,7 +66,7 @@ test.describe('Create verify and delete article', () => {
     // Assert
     await articlesPage.waitForPageToLoadUrl();
     const title = await articlesPage.getTitle();
-    expect.soft(title).toContain('Articles');
+    expect.soft(title).toContain(expectedArticlesTitle);
 
     await articlesPage.searchArticle(articleData.title);
     await expect

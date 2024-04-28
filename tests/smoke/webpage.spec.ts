@@ -19,24 +19,26 @@ test.describe('Verify service main pages', () => {
   test('articles page title @GAD-R01-02', async ({ page }) => {
     // Arrange
     const articlesPage = new ArticlesPage(page);
+    const expectedArticlesTitle = 'Articles';
 
     // Act
     await articlesPage.goto();
 
     // Assert
     const title = await articlesPage.getTitle();
-    expect(title).toContain('Articles');
+    expect(title).toContain(expectedArticlesTitle);
   });
 
   test('comments page title @GAD-R01-02', async ({ page }) => {
     // Arrange
     const commentsPage = new CommentsPage(page);
+    const expectedCommentsTitle = 'Comments';
 
     // Act
     await commentsPage.goto();
 
     // Assert
     const title = await commentsPage.getTitle();
-    expect(title).toContain('Comments');
+    expect(title).toContain(expectedCommentsTitle);
   });
 });

@@ -23,6 +23,8 @@ test.describe('Verify register', () => {
     const welcomePage = new WelcomePage(page);
 
     const expectedRegisterSuccessText = 'User created';
+    const expectedLoginTitle = 'Login';
+    const expectedWelcomeTitle = 'Welcome';
 
     // Act
     await registerPage.register(registerUser);
@@ -34,7 +36,7 @@ test.describe('Verify register', () => {
 
     await loginPage.waitForPageToLoadUrl();
     const loginTitle = await loginPage.getTitle();
-    expect.soft(loginTitle).toContain('Login');
+    expect.soft(loginTitle).toContain(expectedLoginTitle);
 
     // Assert
     await loginPage.login({
@@ -42,7 +44,7 @@ test.describe('Verify register', () => {
       userPassword: registerUser.userPassword,
     });
     const welcomeTitle = await welcomePage.getTitle();
-    expect(welcomeTitle).toContain('Welcome');
+    expect(welcomeTitle).toContain(expectedWelcomeTitle);
   });
 
   test('not register with incorrect credentials - not valid email @GAD-R03-04', async () => {
