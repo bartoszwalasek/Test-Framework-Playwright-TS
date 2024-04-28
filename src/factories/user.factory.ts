@@ -1,8 +1,8 @@
-import { RegisterUser } from '../models/user.model';
+import { RegisterUserModel } from '../models/user.model';
 import { faker } from '@faker-js/faker/locale/en';
 
-export function createRandomUser(): RegisterUser {
-  const registerUser: RegisterUser = {
+export function createRandomUser(): RegisterUserModel {
+  const registerUser: RegisterUserModel = {
     userFirstName: faker.person.firstName().replace(/[^A-Za-z]g/, ''),
     userLastName: faker.person.lastName().replace(/[^A-Za-z]g/, ''),
     userEmail: '',
