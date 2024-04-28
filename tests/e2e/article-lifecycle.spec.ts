@@ -33,7 +33,7 @@ test.describe('Create verify and delete article', () => {
 
     // Act
     await articlesPage.addArticleButtonLogged.click();
-    await expect.soft(addArticleView.header).toBeVisible();
+    await expect.soft(addArticleView.addNewArticleHeader).toBeVisible();
     await addArticleView.createNewArticle(articleData);
 
     // Assert
