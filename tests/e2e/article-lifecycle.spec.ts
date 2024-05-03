@@ -37,9 +37,7 @@ test.describe('Create verify and delete article', () => {
     await addArticleView.createNewArticle(articleData);
 
     // Assert
-    await expect
-      .soft(articlePage.articleCreatedPopUp)
-      .toHaveText(expectedSuccessText);
+    await expect.soft(articlePage.alertPopUp).toHaveText(expectedSuccessText);
     await expect.soft(articlePage.articleTitle).toHaveText(articleData.title);
     await expect.soft(articlePage.articleBody).toHaveText(articleData.body);
   });
