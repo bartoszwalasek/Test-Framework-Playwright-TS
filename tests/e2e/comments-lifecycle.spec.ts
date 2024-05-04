@@ -8,6 +8,7 @@ import { LoginPage } from '../../src/pages/login.page';
 import { testUser1 } from '../../src/test-data/user.data';
 import { AddArticleView } from '../../src/views/add-article.view';
 import { AddCommentView } from '../../src/views/add-comment.view';
+import { EditCommentView } from '../../src/views/edit-comment.view';
 import { expect, test } from '@playwright/test';
 
 test.describe('Create verify and delete comment', () => {
@@ -18,6 +19,7 @@ test.describe('Create verify and delete comment', () => {
   let articlePage: ArticlePage;
   let addCommentView: AddCommentView;
   let commentPage: CommentPage;
+  let editCommentView: EditCommentView;
 
   test.beforeEach(async ({ page }) => {
     loginPage = new LoginPage(page);
@@ -26,6 +28,7 @@ test.describe('Create verify and delete comment', () => {
     articlePage = new ArticlePage(page);
     addCommentView = new AddCommentView(page);
     commentPage = new CommentPage(page);
+    editCommentView = new EditCommentView(page);
 
     articleData = createRandomArticle();
 
@@ -40,13 +43,13 @@ test.describe('Create verify and delete comment', () => {
     // Create comment
     // Arrange
     const expectedSuccessText = 'Comment was created';
+    const expectedSuccessEditText = 'Comment was updated';
     const commentData = createRandomComment();
 
     // Act
     await articlePage.addCommentButton.click();
     await expect.soft(addCommentView.addNewCommentHeader).toBeVisible();
-    await addCommentView.commentBodyInput.fill(commentData.body);
-    await addCommentView.saveCommentButton.click();
+    await addCommentView.addComment(commentData);
 
     // Assert
     await expect.soft(articlePage.alertPopUp).toHaveText(expectedSuccessText);
@@ -60,5 +63,26 @@ test.describe('Create verify and delete comment', () => {
 
     // Assert
     await expect(commentPage.commentBody).toHaveText(commentData.body);
+
+    // Edit comment
+    // Act
+    const editCommentData = createRandomComment();
+
+    await commentPage.editButton.click();
+    await editCommentView.updateComment(editCommentData);
+
+    // Assert
+    await expect.soft(commentPage.commentBody).toHaveText(editCommentData.body);
+    await expect
+      .soft(commentPage.alertPopUp)
+      .toHaveText(expectedSuccessEditText);
+    await commentPage.returnLink.click();
+
+    const updatedArticleComment = articlePage.getArticleComment(
+      editCommentData.body,
+    );
+    await expect
+      .soft(updatedArticleComment.body)
+      .toHaveText(editCommentData.body);
   });
 });

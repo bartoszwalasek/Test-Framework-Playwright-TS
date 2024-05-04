@@ -6,6 +6,10 @@ export class CommentPage extends BasePage {
   url = '/comment.html';
 
   commentBody = this.page.getByTestId('comment-body');
+  editButton = this.page.getByTestId('edit');
+  returnLink = this.page.getByTestId('return');
+
+  alertPopUp = this.page.getByTestId('alert-popup');
 
   mainMenu = new MainMenuComponent(this.page);
 
