@@ -40,7 +40,7 @@ test.describe('Create verify and delete comment', () => {
     await addArticleView.createNewArticle(articleData);
   });
 
-  test('operate on comments @GAD-R05-01 @GAD-R05-02 @GAD-R05-03', async () => {
+  test('operate on comment @GAD-R05-01 @GAD-R05-02', async () => {
     const commentData = createRandomComment();
 
     await test.step('create a new comment', async () => {
@@ -95,23 +95,38 @@ test.describe('Create verify and delete comment', () => {
       // Assert
       await expect(updatedArticleComment.body).toHaveText(editCommentData.body);
     });
+  });
 
-    await test.step('create and verify second comment', async () => {
+  test('operate on second comment @GAD-R05-03', async () => {
+    await test.step('create first comment', async () => {
       // Arrange
-      const secondCommentData = createRandomComment();
+      const commentData = createRandomComment();
+      const expectedSuccessText = 'Comment was created';
 
       // Act
       await articlePage.addCommentButton.click();
-      await addCommentView.addComment(secondCommentData);
+      await addCommentView.addComment(commentData);
 
       // Assert
-      const articleComment = articlePage.getArticleComment(
-        secondCommentData.body,
-      );
-      await expect(articleComment.body).toHaveText(secondCommentData.body);
+      await expect.soft(articlePage.alertPopUp).toHaveText(expectedSuccessText);
+    });
 
-      await articleComment.link.click();
-      await expect(commentPage.commentBody).toHaveText(secondCommentData.body);
+    await test.step('create and verify second comment', async () => {
+      const secondCommentBody =
+        await test.step('create second comment', async () => {
+          const secondCommentData = createRandomComment();
+          await articlePage.addCommentButton.click();
+          await addCommentView.addComment(secondCommentData);
+          return secondCommentData.body;
+        });
+
+      await test.step('verify second comment', async () => {
+        const articleComment = articlePage.getArticleComment(secondCommentBody);
+        await expect(articleComment.body).toHaveText(secondCommentBody);
+
+        await articleComment.link.click();
+        await expect(commentPage.commentBody).toHaveText(secondCommentBody);
+      });
     });
   });
 });
