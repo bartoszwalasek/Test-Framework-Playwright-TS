@@ -16,6 +16,5 @@ setup('login with correct credentials', async ({ page }) => {
 
   // Assert
   const title = await welcomePage.getTitle();
-  // eslint-disable-next-line playwright/no-standalone-expect
   expect(title).toContain(expectedWelcomeTitle);
 });
