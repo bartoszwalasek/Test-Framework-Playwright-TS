@@ -22,7 +22,7 @@ test.describe('Verify articles', () => {
     await articlesPage.addArticleButtonLogged.click();
   });
 
-  test('reject adding an article without title @GAD-R04-01', async () => {
+  test('reject adding an article without title @GAD-R04-01 @logged', async () => {
     // Arrange
     const articleData = createRandomArticle();
     articleData.title = '';
