@@ -11,7 +11,6 @@ setup('login with correct credentials', async ({ page }) => {
   const expectedWelcomeTitle = 'Welcome';
 
   // Act
-
   await loginPage.goto();
   await loginPage.login(testUser1);
 
